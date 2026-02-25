@@ -5,19 +5,19 @@ import type { Idea } from "@/types"
 const priorityBorder = {
   urgent: "border-l-red-500",
   important: "border-l-amber-400",
-  normal: "border-l-gray-200",
+  normal: "border-l-gray-200 dark:border-l-gray-600",
 }
 
 const priorityLabel = {
-  urgent: { text: "Urgent", className: "bg-red-50 text-red-700" },
-  important: { text: "Important", className: "bg-amber-50 text-amber-700" },
+  urgent: { text: "Urgent", className: "bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400" },
+  important: { text: "Important", className: "bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400" },
   normal: { text: "", className: "" },
 }
 
 const statusLabel = {
-  active: { text: "Active", className: "bg-gray-100 text-gray-600" },
-  actioned: { text: "Actioned", className: "bg-green-50 text-green-700" },
-  archived: { text: "Archived", className: "bg-gray-50 text-gray-400" },
+  active: { text: "Active", className: "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-400" },
+  actioned: { text: "Actioned", className: "bg-green-50 text-green-700 dark:bg-green-900/30 dark:text-green-400" },
+  archived: { text: "Archived", className: "bg-gray-50 text-gray-400 dark:bg-gray-800 dark:text-gray-500" },
 }
 
 function formatDate(iso: string) {
@@ -45,28 +45,28 @@ export default function IdeaCard({ idea, onClick }: Props) {
   return (
     <button
       onClick={() => onClick(idea)}
-      className={`w-full text-left bg-white rounded-xl border border-gray-100 border-l-4 ${border} p-4 hover:shadow-md transition-shadow duration-150`}
+      className={`w-full text-left bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 border-l-4 ${border} p-4 hover:shadow-md dark:hover:shadow-gray-900/50 transition-shadow duration-150`}
     >
       <div className="flex items-start justify-between gap-3">
-        <h3 className="font-medium text-gray-900 text-sm leading-snug flex-1">
+        <h3 className="font-medium text-gray-900 dark:text-gray-100 text-sm leading-snug flex-1">
           {idea.title}
         </h3>
-        <span className="text-xs text-gray-400 whitespace-nowrap mt-0.5">
+        <span className="text-xs text-gray-400 dark:text-gray-500 whitespace-nowrap mt-0.5">
           {formatDate(idea.created_at)}
         </span>
       </div>
 
-      <p className="text-sm text-gray-500 mt-1 line-clamp-2">{idea.summary}</p>
+      <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 line-clamp-2">{idea.summary}</p>
 
       <div className="flex flex-wrap items-center gap-1.5 mt-3">
-        <span className="text-xs bg-indigo-50 text-indigo-700 px-2 py-0.5 rounded-full font-medium">
+        <span className="text-xs bg-indigo-50 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-400 px-2 py-0.5 rounded-full font-medium">
           {idea.category}
         </span>
 
         {idea.tags.map((tag) => (
           <span
             key={tag}
-            className="text-xs bg-gray-100 text-gray-500 px-2 py-0.5 rounded-full"
+            className="text-xs bg-gray-100 dark:bg-gray-700 text-gray-500 dark:text-gray-400 px-2 py-0.5 rounded-full"
           >
             {tag}
           </span>

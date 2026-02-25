@@ -85,26 +85,28 @@ export default function AIReviewPanel({
     }
   }
 
+  const inputCls = "w-full border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+
   return (
-    <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-4 space-y-4">
+    <div className="bg-indigo-50 dark:bg-indigo-950/20 border border-indigo-100 dark:border-indigo-900 rounded-xl p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-semibold text-indigo-900">Review & confirm</h2>
-        <button onClick={onCancel} className="text-gray-400 hover:text-gray-600 text-sm">
+        <h2 className="text-sm font-semibold text-indigo-900 dark:text-indigo-300">Review & confirm</h2>
+        <button onClick={onCancel} className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 text-sm">
           Cancel
         </button>
       </div>
 
       {/* New category prompt */}
       {newCatMode && (
-        <div className="bg-white border border-amber-200 rounded-lg p-3 text-sm">
-          <p className="text-amber-800 font-medium mb-2">
+        <div className="bg-white dark:bg-gray-800 border border-amber-200 dark:border-amber-700 rounded-lg p-3 text-sm">
+          <p className="text-amber-800 dark:text-amber-300 font-medium mb-2">
             AI suggested a new category: &ldquo;{result.category}&rdquo;
           </p>
           <div className="flex gap-2 mb-2">
             <input
               value={newCatName}
               onChange={(e) => setNewCatName(e.target.value)}
-              className="flex-1 border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="flex-1 border border-gray-200 dark:border-gray-600 rounded px-2 py-1 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
             />
             <button
               onClick={acceptNewCategory}
@@ -114,7 +116,7 @@ export default function AIReviewPanel({
               {newCatSaving ? "Saving..." : "Add"}
             </button>
           </div>
-          <p className="text-gray-400 text-xs mb-1">Or remap to an existing category:</p>
+          <p className="text-gray-400 dark:text-gray-500 text-xs mb-1">Or remap to an existing category:</p>
           <select
             value=""
             onChange={(e) => {
@@ -123,7 +125,7 @@ export default function AIReviewPanel({
                 setNewCatMode(false)
               }
             }}
-            className="w-full border border-gray-200 rounded px-2 py-1 text-sm focus:outline-none"
+            className="w-full border border-gray-200 dark:border-gray-600 rounded px-2 py-1 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none"
           >
             <option value="">— pick existing —</option>
             {categoryNames.map((n) => (
@@ -136,36 +138,26 @@ export default function AIReviewPanel({
       )}
 
       <div>
-        <label className="block text-xs font-medium text-gray-600 mb-1">Title</label>
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
+        <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Title</label>
+        <input value={title} onChange={(e) => setTitle(e.target.value)} className={inputCls} />
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-gray-600 mb-1">Summary</label>
+        <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Summary</label>
         <textarea
           value={summary}
           onChange={(e) => setSummary(e.target.value)}
           rows={2}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+          className={`${inputCls} resize-none`}
         />
       </div>
 
       <div className="grid grid-cols-2 gap-3">
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Category</label>
-          <select
-            value={category}
-            onChange={(e) => setCategory(e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
+          <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Category</label>
+          <select value={category} onChange={(e) => setCategory(e.target.value)} className={inputCls}>
             {categoryNames.map((n) => (
-              <option key={n} value={n}>
-                {n}
-              </option>
+              <option key={n} value={n}>{n}</option>
             ))}
             {!categoryNames.includes(category) && (
               <option value={category}>{category} (new)</option>
@@ -174,12 +166,8 @@ export default function AIReviewPanel({
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-gray-600 mb-1">Priority</label>
-          <select
-            value={priority}
-            onChange={(e) => setPriority(e.target.value as Priority)}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-          >
+          <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Priority</label>
+          <select value={priority} onChange={(e) => setPriority(e.target.value as Priority)} className={inputCls}>
             <option value="normal">Normal</option>
             <option value="important">Important</option>
             <option value="urgent">Urgent</option>
@@ -188,14 +176,10 @@ export default function AIReviewPanel({
       </div>
 
       <div>
-        <label className="block text-xs font-medium text-gray-600 mb-1">
+        <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
           Tags (comma-separated, up to 3)
         </label>
-        <input
-          value={tagsInput}
-          onChange={(e) => setTagsInput(e.target.value)}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-        />
+        <input value={tagsInput} onChange={(e) => setTagsInput(e.target.value)} className={inputCls} />
       </div>
 
       {error && <p className="text-red-500 text-xs">{error}</p>}

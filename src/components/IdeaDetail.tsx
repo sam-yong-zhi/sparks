@@ -69,22 +69,24 @@ export default function IdeaDetail({ idea, categories, onClose, onUpdated, onDel
     }
   }
 
+  const inputCls = "w-full border border-gray-200 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+
   return (
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/20 z-40"
+        className="fixed inset-0 bg-black/20 dark:bg-black/50 z-40"
         onClick={onClose}
       />
 
       {/* Slide-over panel */}
-      <div className="fixed inset-y-0 right-0 w-full max-w-md bg-white shadow-xl z-50 flex flex-col">
+      <div className="fixed inset-y-0 right-0 w-full max-w-md bg-white dark:bg-gray-800 shadow-xl z-50 flex flex-col">
         {/* Header */}
-        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
-          <h2 className="font-semibold text-gray-900 text-sm">Edit idea</h2>
+        <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 dark:border-gray-700">
+          <h2 className="font-semibold text-gray-900 dark:text-gray-100 text-sm">Edit idea</h2>
           <button
             onClick={onClose}
-            className="text-gray-400 hover:text-gray-600 p-1"
+            className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-1"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -95,47 +97,33 @@ export default function IdeaDetail({ idea, categories, onClose, onUpdated, onDel
         {/* Scrollable content */}
         <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Title</label>
-            <input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
+            <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Title</label>
+            <input value={title} onChange={(e) => setTitle(e.target.value)} className={inputCls} />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Summary</label>
+            <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Summary</label>
             <textarea
               value={summary}
               onChange={(e) => setSummary(e.target.value)}
               rows={3}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none"
+              className={`${inputCls} resize-none`}
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Category</label>
-              <select
-                value={category}
-                onChange={(e) => setCategory(e.target.value)}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
+              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Category</label>
+              <select value={category} onChange={(e) => setCategory(e.target.value)} className={inputCls}>
                 {categories.map((c) => (
-                  <option key={c.id} value={c.name}>
-                    {c.name}
-                  </option>
+                  <option key={c.id} value={c.name}>{c.name}</option>
                 ))}
               </select>
             </div>
 
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Priority</label>
-              <select
-                value={priority}
-                onChange={(e) => setPriority(e.target.value as Priority)}
-                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-              >
+              <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Priority</label>
+              <select value={priority} onChange={(e) => setPriority(e.target.value as Priority)} className={inputCls}>
                 <option value="normal">Normal</option>
                 <option value="important">Important</option>
                 <option value="urgent">Urgent</option>
@@ -144,12 +132,8 @@ export default function IdeaDetail({ idea, categories, onClose, onUpdated, onDel
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Status</label>
-            <select
-              value={status}
-              onChange={(e) => setStatus(e.target.value as Status)}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
+            <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Status</label>
+            <select value={status} onChange={(e) => setStatus(e.target.value as Status)} className={inputCls}>
               <option value="active">Active</option>
               <option value="actioned">Actioned</option>
               <option value="archived">Archived</option>
@@ -157,32 +141,28 @@ export default function IdeaDetail({ idea, categories, onClose, onUpdated, onDel
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">
+            <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
               Tags (comma-separated, up to 3)
             </label>
-            <input
-              value={tagsInput}
-              onChange={(e) => setTagsInput(e.target.value)}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            />
+            <input value={tagsInput} onChange={(e) => setTagsInput(e.target.value)} className={inputCls} />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Notes</label>
+            <label className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">Notes</label>
             <textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
               placeholder="Add follow-up notes..."
               rows={3}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 resize-none placeholder-gray-400"
+              className={`${inputCls} resize-none placeholder-gray-400 dark:placeholder-gray-500`}
             />
           </div>
 
           {/* Original input collapsible */}
-          <div className="border border-gray-100 rounded-lg overflow-hidden">
+          <div className="border border-gray-100 dark:border-gray-700 rounded-lg overflow-hidden">
             <button
               onClick={() => setShowRaw((v) => !v)}
-              className="w-full flex items-center justify-between px-3 py-2 text-xs text-gray-500 bg-gray-50 hover:bg-gray-100"
+              className="w-full flex items-center justify-between px-3 py-2 text-xs text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-700/50 hover:bg-gray-100 dark:hover:bg-gray-700"
             >
               <span>Original input</span>
               <svg
@@ -195,7 +175,7 @@ export default function IdeaDetail({ idea, categories, onClose, onUpdated, onDel
               </svg>
             </button>
             {showRaw && (
-              <div className="px-3 py-2 text-xs text-gray-500 whitespace-pre-wrap">
+              <div className="px-3 py-2 text-xs text-gray-500 dark:text-gray-400 whitespace-pre-wrap">
                 {idea.raw_input}
               </div>
             )}
@@ -205,7 +185,7 @@ export default function IdeaDetail({ idea, categories, onClose, onUpdated, onDel
         </div>
 
         {/* Footer actions */}
-        <div className="px-5 py-4 border-t border-gray-100 flex flex-col gap-2">
+        <div className="px-5 py-4 border-t border-gray-100 dark:border-gray-700 flex flex-col gap-2">
           <button
             onClick={handleSave}
             disabled={saving}
@@ -233,7 +213,7 @@ export default function IdeaDetail({ idea, categories, onClose, onUpdated, onDel
               </button>
               <button
                 onClick={() => setConfirmDelete(false)}
-                className="flex-1 border border-gray-200 text-sm text-gray-600 py-2 rounded-lg hover:bg-gray-50"
+                className="flex-1 border border-gray-200 dark:border-gray-600 text-sm text-gray-600 dark:text-gray-400 py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700"
               >
                 Cancel
               </button>

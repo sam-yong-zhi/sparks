@@ -52,6 +52,8 @@ export default function IdeaList({ initialIdeas, categories, onSelectIdea }: Pro
     return list
   }, [initialIdeas, filters, search])
 
+  const selectCls = "text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+
   return (
     <div>
       {/* Filter bar */}
@@ -61,7 +63,7 @@ export default function IdeaList({ initialIdeas, categories, onSelectIdea }: Pro
           placeholder="Search..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="flex-1 min-w-[160px] text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className="flex-1 min-w-[160px] text-sm border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
         />
 
         <select
@@ -69,7 +71,7 @@ export default function IdeaList({ initialIdeas, categories, onSelectIdea }: Pro
           onChange={(e) =>
             setFilters((f) => ({ ...f, category: e.target.value || undefined }))
           }
-          className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className={selectCls}
         >
           <option value="">All categories</option>
           {categories.map((c) => (
@@ -87,7 +89,7 @@ export default function IdeaList({ initialIdeas, categories, onSelectIdea }: Pro
               status: (e.target.value as IdeaFilters["status"]) || undefined,
             }))
           }
-          className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className={selectCls}
         >
           <option value="active">Active</option>
           <option value="actioned">Actioned</option>
@@ -103,7 +105,7 @@ export default function IdeaList({ initialIdeas, categories, onSelectIdea }: Pro
               priority: (e.target.value as IdeaFilters["priority"]) || undefined,
             }))
           }
-          className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className={selectCls}
         >
           <option value="">All priorities</option>
           <option value="urgent">Urgent</option>
@@ -119,7 +121,7 @@ export default function IdeaList({ initialIdeas, categories, onSelectIdea }: Pro
               sort: e.target.value as IdeaFilters["sort"],
             }))
           }
-          className="text-sm border border-gray-200 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+          className={selectCls}
         >
           <option value="newest">Newest</option>
           <option value="oldest">Oldest</option>
@@ -130,7 +132,7 @@ export default function IdeaList({ initialIdeas, categories, onSelectIdea }: Pro
       {/* Idea cards */}
       <div className="flex flex-col gap-3">
         {filtered.length === 0 ? (
-          <div className="text-center py-16 text-gray-400 text-sm">
+          <div className="text-center py-16 text-gray-400 dark:text-gray-500 text-sm">
             {search || filters.category || filters.priority
               ? "No ideas match your filters."
               : "No ideas yet. Capture your first spark above!"}

@@ -43,7 +43,7 @@ export default function CaptureForm({ onResult }: Props) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-xl border border-gray-100 p-4">
+    <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4">
       <textarea
         ref={textareaRef}
         value={text}
@@ -51,7 +51,7 @@ export default function CaptureForm({ onResult }: Props) {
         placeholder="Dump your idea here... bullet points, pasted text, stream of consciousness — anything goes"
         rows={4}
         disabled={loading}
-        className="w-full text-sm text-gray-800 placeholder-gray-400 resize-none focus:outline-none leading-relaxed"
+        className="w-full text-sm text-gray-800 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 bg-transparent resize-none focus:outline-none leading-relaxed"
         onKeyDown={(e) => {
           if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) {
             e.preventDefault()
@@ -62,8 +62,8 @@ export default function CaptureForm({ onResult }: Props) {
 
       {error && <p className="text-red-500 text-xs mt-2">{error}</p>}
 
-      <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100">
-        <span className="text-xs text-gray-400">
+      <div className="flex items-center justify-between mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
+        <span className="text-xs text-gray-400 dark:text-gray-500">
           {text.length > 0 ? `${text.length} chars` : "⌘↵ to submit"}
         </span>
         <button
