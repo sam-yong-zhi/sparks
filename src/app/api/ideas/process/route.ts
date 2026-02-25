@@ -16,6 +16,15 @@ export async function POST(req: NextRequest) {
   const categories = await getCategories()
   const categoryNames = categories.map((c) => c.name)
 
-  const result = await processIdea(rawInput.trim(), categoryNames)
-  return NextResponse.json(result)
+  try {
+    const result = await processIdea(rawInput.trim(), categoryNames)
+    return NextResponse.json(result)
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "AI processing failed"
+    const isRateLimit = message.includes("429") || message.includes("quota")
+    return NextResponse.json(
+      { error: isRateLimit ? "AI is rate-limited — wait a minute and try again." : message },
+      { status: isRateLimit ? 429 : 500 }
+    )
+  }
 }

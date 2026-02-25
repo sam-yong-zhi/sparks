@@ -1,10 +1,10 @@
-import Anthropic from "@anthropic-ai/sdk"
+import Groq from "groq-sdk"
 import type { AIResult, Priority } from "@/types"
 
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
-// claude-haiku-4-5-20251001 — verify against Anthropic docs if errors occur
-const MODEL = "claude-haiku-4-5-20251001"
+// llama-3.1-8b-instant: 14,400 RPD free — more than enough for personal use
+const MODEL = "llama-3.1-8b-instant"
 
 export async function processIdea(
   rawInput: string,
@@ -12,35 +12,34 @@ export async function processIdea(
 ): Promise<AIResult> {
   const categoryList = categories.join(", ")
 
-  const systemPrompt = `You are a personal idea organizer. Your job is to extract and structure raw thoughts into clean, organized entries.
+  const response = await groq.chat.completions.create({
+    model: MODEL,
+    response_format: { type: "json_object" },
+    messages: [
+      {
+        role: "system",
+        content: `You are a personal idea organizer. Extract and structure raw thoughts into clean entries.
 
 Available categories: ${categoryList}
 
 Rules:
 - Pick the most appropriate category from the list above
 - If none fit well, suggest a new category name (short, title-case, 1-3 words)
-- Return ONLY valid JSON, no other text
 - title: max 8 words, punchy and specific
 - summary: 1-2 clean sentences capturing the core idea
 - tags: up to 3 lowercase keyword strings
-- priority: "normal", "important", or "urgent" based on time-sensitivity or importance signals in the text`
+- priority: "normal", "important", or "urgent" based on urgency signals in the text
 
-  const userMessage = `Here is the raw input to process:\n\n${rawInput}`
-
-  const message = await client.messages.create({
-    model: MODEL,
-    max_tokens: 512,
-    messages: [{ role: "user", content: userMessage }],
-    system: systemPrompt,
+Return a JSON object with keys: title, summary, category, tags (array of strings), priority`,
+      },
+      {
+        role: "user",
+        content: rawInput,
+      },
+    ],
   })
 
-  const text = message.content
-    .filter((block) => block.type === "text")
-    .map((block) => (block as { type: "text"; text: string }).text)
-    .join("")
-
-  // Strip markdown code fences if present
-  const cleaned = text.replace(/^```json\s*/i, "").replace(/```\s*$/, "").trim()
+  const text = response.choices[0]?.message?.content ?? ""
 
   let parsed: {
     title: string
@@ -51,9 +50,9 @@ Rules:
   }
 
   try {
-    parsed = JSON.parse(cleaned)
+    parsed = JSON.parse(text)
   } catch {
-    throw new Error(`AI returned invalid JSON: ${cleaned.slice(0, 200)}`)
+    throw new Error(`AI returned invalid JSON: ${text.slice(0, 200)}`)
   }
 
   const validPriorities: Priority[] = ["normal", "important", "urgent"]
