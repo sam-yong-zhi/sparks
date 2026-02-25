@@ -11,15 +11,11 @@ interface Props {
 }
 
 export default function IdeaList({ initialIdeas, categories, onSelectIdea }: Props) {
-  const [ideas, setIdeas] = useState<Idea[]>(initialIdeas)
   const [filters, setFilters] = useState<IdeaFilters>({ status: "active", sort: "newest" })
   const [search, setSearch] = useState("")
 
-  // Expose refresh so parent can trigger after save/update
-  // (parent passes updated ideas via prop updates)
-
   const filtered = useMemo(() => {
-    let list = ideas
+    let list = initialIdeas
 
     if (filters.category) {
       list = list.filter((i) => i.category === filters.category)
@@ -54,18 +50,7 @@ export default function IdeaList({ initialIdeas, categories, onSelectIdea }: Pro
     }
 
     return list
-  }, [ideas, filters, search])
-
-  // Allow parent to push new/updated ideas
-  const addIdea = (idea: Idea) => setIdeas((prev) => [idea, ...prev])
-  const replaceIdea = (idea: Idea) =>
-    setIdeas((prev) => prev.map((i) => (i.id === idea.id ? idea : i)))
-  const removeIdea = (id: string) => setIdeas((prev) => prev.filter((i) => i.id !== id))
-
-  // Attach methods to window for parent access (simple pattern for App Router)
-  if (typeof window !== "undefined") {
-    (window as Window & typeof globalThis & { __sparks?: Record<string, unknown> }).__sparks = { addIdea, replaceIdea, removeIdea }
-  }
+  }, [initialIdeas, filters, search])
 
   return (
     <div>
