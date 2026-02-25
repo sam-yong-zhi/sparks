@@ -1,3 +1,5 @@
+export const dynamic = "force-dynamic"
+
 import { getIdeas, getCategories } from "@/lib/db"
 import HomeClient from "@/components/HomeClient"
 
